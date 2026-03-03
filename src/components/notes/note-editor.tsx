@@ -30,6 +30,7 @@ export function NoteEditor({ noteId, mode, onTitleChange, onSaveStatusChange }: 
   const highlightRef = useRef<HTMLDivElement>(null);
   const lastSavedRef = useRef({ title: "", body: "" });
   const generatingTitleRef = useRef(false);
+  const initializedNoteIdRef = useRef<string | null>(null);
   const cursorLnRef = useRef(1);
 
   // text-base (16px) * leading-relaxed (1.625) = 26px; p-2 = 8px
@@ -129,15 +130,16 @@ export function NoteEditor({ noteId, mode, onTitleChange, onSaveStatusChange }: 
     onSaveStatusChange?.(status);
   }
 
-  // Load note data
+  // Load note data only on initial fetch or when switching notes
   useEffect(() => {
-    if (note) {
+    if (note && initializedNoteIdRef.current !== noteId) {
+      initializedNoteIdRef.current = noteId;
       setTitle(note.title);
       setBody(note.body);
       lastSavedRef.current = { title: note.title, body: note.body };
       setSaveStatus("saved");
     }
-  }, [note]);
+  }, [note, noteId]);
 
   const save = useCallback(
     async (newTitle: string, newBody: string) => {
