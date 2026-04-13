@@ -11,6 +11,7 @@ import type { SaveStatus } from "@/components/notes/note-editor";
 import { CommandPalette } from "@/components/notes/command-palette";
 import { EmptyState } from "@/components/layout/empty-state";
 import { UpdateBanner } from "@/components/layout/update-banner";
+import { SettingsPage } from "@/pages/settings-page";
 import {
   useNotes,
   useArchivedNotes,
@@ -36,6 +37,7 @@ export function AppPage() {
   const [editorMode, setEditorMode] = useState<"edit" | "preview">("edit");
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("saved");
   const [sidebarView, setSidebarView] = useState<SidebarView>("notes");
+  const [showSettings, setShowSettings] = useState(false);
 
   const { data: notesData, isLoading: notesLoading } = useNotes({
     query: searchQuery || undefined,
@@ -203,90 +205,97 @@ export function AppPage() {
 
         {/* Main area */}
         <div className="flex-1 flex flex-col min-w-0">
-          <TopBar
-            onNewNote={handleNewNote}
-            onCommandPalette={() => setCommandPaletteOpen(true)}
-            onSignOut={() => signOut()}
-            onToggleTheme={toggleTheme}
-            onToggleSidebar={() => setSidebarOpen((o) => !o)}
-            theme={theme}
-            userName={user?.firstName || undefined}
-          />
-
-          <TabStrip
-            tabs={tabs}
-            activeTabId={activeTabId}
-            onSelectTab={setActiveTabId}
-            onCloseTab={closeTab}
-            onCloseAll={closeAll}
-            onCloseOthers={closeOthers}
-            onCloseToRight={closeToRight}
-            onArchiveTab={handleArchiveTab}
-            onDeleteTab={handleDeleteTab}
-          >
-            {activeTabId && (
-              <>
-                {/* Edit / Preview toggle */}
-                <div className="flex items-center gap-0.5 bg-panel-alt rounded-sm border border-border p-0.5">
-                  <button
-                    onClick={() => setEditorMode("edit")}
-                    className={cn(
-                      "flex items-center gap-1 px-2 py-0.5 rounded-sm text-xs font-medium transition-colors cursor-pointer",
-                      editorMode === "edit"
-                        ? "bg-page text-ink shadow-sm"
-                        : "text-ink-muted hover:text-ink-secondary",
-                    )}
-                  >
-                    <Pencil size={10} />
-                    <span className="hidden sm:inline">Edit</span>
-                  </button>
-                  <button
-                    onClick={() => setEditorMode("preview")}
-                    className={cn(
-                      "flex items-center gap-1 px-2 py-0.5 rounded-sm text-xs font-medium transition-colors cursor-pointer",
-                      editorMode === "preview"
-                        ? "bg-page text-ink shadow-sm"
-                        : "text-ink-muted hover:text-ink-secondary",
-                    )}
-                  >
-                    <Eye size={10} />
-                    <span className="hidden sm:inline">Preview</span>
-                  </button>
-                </div>
-
-                {/* Save status */}
-                <div className="flex items-center gap-1 text-xs">
-                  {saveStatus === "saved" && (
-                    <>
-                      <Check size={11} className="text-success" />
-                      <span className="text-ink-muted hidden sm:inline">Saved</span>
-                    </>
-                  )}
-                  {saveStatus === "saving" && (
-                    <>
-                      <Loader2 size={11} className="animate-spin text-accent" />
-                      <span className="text-ink-muted hidden sm:inline">Saving...</span>
-                    </>
-                  )}
-                  {saveStatus === "unsaved" && (
-                    <span className="text-warning">Unsaved</span>
-                  )}
-                </div>
-              </>
-            )}
-          </TabStrip>
-
-          {/* Editor */}
-          {activeTabId ? (
-            <NoteEditor
-              key={activeTabId}
-              noteId={activeTabId}
-              mode={editorMode}
-              onTitleChange={updateTabTitle}
-              onSaveStatusChange={setSaveStatus}
-            />
+          {showSettings ? (
+            <SettingsPage onBack={() => setShowSettings(false)} />
           ) : (
-            <EmptyState />
+            <>
+              <TopBar
+                onNewNote={handleNewNote}
+                onCommandPalette={() => setCommandPaletteOpen(true)}
+                onSignOut={() => signOut()}
+                onToggleTheme={toggleTheme}
+                onToggleSidebar={() => setSidebarOpen((o) => !o)}
+                onSettings={() => setShowSettings(true)}
+                theme={theme}
+                userName={user?.firstName || undefined}
+              />
+
+              <TabStrip
+                tabs={tabs}
+                activeTabId={activeTabId}
+                onSelectTab={setActiveTabId}
+                onCloseTab={closeTab}
+                onCloseAll={closeAll}
+                onCloseOthers={closeOthers}
+                onCloseToRight={closeToRight}
+                onArchiveTab={handleArchiveTab}
+                onDeleteTab={handleDeleteTab}
+              >
+                {activeTabId && (
+                  <>
+                    {/* Edit / Preview toggle */}
+                    <div className="flex items-center gap-0.5 bg-panel-alt rounded-sm border border-border p-0.5">
+                      <button
+                        onClick={() => setEditorMode("edit")}
+                        className={cn(
+                          "flex items-center gap-1 px-2 py-0.5 rounded-sm text-xs font-medium transition-colors cursor-pointer",
+                          editorMode === "edit"
+                            ? "bg-page text-ink shadow-sm"
+                            : "text-ink-muted hover:text-ink-secondary",
+                        )}
+                      >
+                        <Pencil size={10} />
+                        <span className="hidden sm:inline">Edit</span>
+                      </button>
+                      <button
+                        onClick={() => setEditorMode("preview")}
+                        className={cn(
+                          "flex items-center gap-1 px-2 py-0.5 rounded-sm text-xs font-medium transition-colors cursor-pointer",
+                          editorMode === "preview"
+                            ? "bg-page text-ink shadow-sm"
+                            : "text-ink-muted hover:text-ink-secondary",
+                        )}
+                      >
+                        <Eye size={10} />
+                        <span className="hidden sm:inline">Preview</span>
+                      </button>
+                    </div>
+
+                    {/* Save status */}
+                    <div className="flex items-center gap-1 text-xs">
+                      {saveStatus === "saved" && (
+                        <>
+                          <Check size={11} className="text-success" />
+                          <span className="text-ink-muted hidden sm:inline">Saved</span>
+                        </>
+                      )}
+                      {saveStatus === "saving" && (
+                        <>
+                          <Loader2 size={11} className="animate-spin text-accent" />
+                          <span className="text-ink-muted hidden sm:inline">Saving...</span>
+                        </>
+                      )}
+                      {saveStatus === "unsaved" && (
+                        <span className="text-warning">Unsaved</span>
+                      )}
+                    </div>
+                  </>
+                )}
+              </TabStrip>
+
+              {/* Editor */}
+              {activeTabId ? (
+                <NoteEditor
+                  key={activeTabId}
+                  noteId={activeTabId}
+                  mode={editorMode}
+                  onTitleChange={updateTabTitle}
+                  onSaveStatusChange={setSaveStatus}
+                />
+              ) : (
+                <EmptyState />
+              )}
+            </>
           )}
         </div>
       </div>

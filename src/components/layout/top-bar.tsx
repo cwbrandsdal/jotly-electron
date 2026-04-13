@@ -1,4 +1,4 @@
-import { Plus, LogOut, User, Sun, Moon, Menu } from "lucide-react";
+import { Plus, LogOut, User, Sun, Moon, Menu, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 
@@ -8,6 +8,7 @@ interface TopBarProps {
   onSignOut: () => void;
   onToggleTheme: () => void;
   onToggleSidebar: () => void;
+  onSettings: () => void;
   theme: "light" | "dark";
   userName?: string;
 }
@@ -18,6 +19,7 @@ export function TopBar({
   onSignOut,
   onToggleTheme,
   onToggleSidebar,
+  onSettings,
   theme,
   userName,
 }: TopBarProps) {
@@ -52,6 +54,13 @@ export function TopBar({
           title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
         >
           {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+        <button
+          onClick={onSettings}
+          className="p-2 rounded-sm hover:bg-hover text-ink-muted hover:text-ink transition-colors cursor-pointer"
+          title="Settings"
+        >
+          <Settings size={16} />
         </button>
         <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm text-ink-secondary">
           <User size={14} />
