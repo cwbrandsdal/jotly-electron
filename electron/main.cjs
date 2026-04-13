@@ -239,6 +239,7 @@ async function createWindow() {
     minWidth: 800,
     minHeight: 600,
     title: 'Jotly',
+    icon: path.join(__dirname, '..', 'build', 'icon.ico'),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,

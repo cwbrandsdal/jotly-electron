@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate app icon
+        run: node scripts/generate-icon.mjs
+
       - name: Build and publish Windows release
         run: npm run release:win
         env:
