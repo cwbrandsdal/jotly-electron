@@ -10,6 +10,7 @@ import { NoteEditor } from "@/components/notes/note-editor";
 import type { SaveStatus } from "@/components/notes/note-editor";
 import { CommandPalette } from "@/components/notes/command-palette";
 import { EmptyState } from "@/components/layout/empty-state";
+import { UpdateBanner } from "@/components/layout/update-banner";
 import {
   useNotes,
   useArchivedNotes,
@@ -174,6 +175,7 @@ export function AppPage() {
 
   return (
     <div className="h-screen flex flex-col bg-page">
+      <UpdateBanner />
       <div className="flex-1 flex min-h-0">
         {/* Sidebar */}
         <Sidebar
