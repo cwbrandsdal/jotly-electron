@@ -1,6 +1,6 @@
 {
   "name": "jotly-electron",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Jotly — Notes that keep up (Desktop)",
   "main": "electron/main.cjs",
   "type": "module",
