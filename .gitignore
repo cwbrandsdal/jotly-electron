@@ -2,4 +2,8 @@ node_modules/
 dist/
 release/
 *.log
+.env
 .env.local
+.env.development
+.env.production
+.env.*.local
