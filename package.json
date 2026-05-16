@@ -1,12 +1,12 @@
 {
   "name": "jotly-electron",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Jotly — Notes that keep up (Desktop)",
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
     "dev:web": "vite",
-    "dev": "concurrently -k \"vite\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "dev": "concurrently -k \"vite\" \"wait-on http://127.0.0.1:39173 && electron .\"",
     "build": "tsc -b && vite build",
     "package": "npm run build && electron-builder",
     "dist:win": "npm run build && electron-builder --win nsis",

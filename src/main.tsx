@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 
 const clientId = import.meta.env.VITE_WORKOS_CLIENT_ID || "";
 const redirectUri =
-  import.meta.env.VITE_WORKOS_REDIRECT_URI || "http://localhost:5173/auth/callback";
+  import.meta.env.VITE_WORKOS_REDIRECT_URI || "http://127.0.0.1:39173/auth/callback";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

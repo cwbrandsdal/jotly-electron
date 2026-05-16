@@ -4,9 +4,9 @@ const path = require('path');
 const http = require('http');
 const fs = require('fs');
 
-const PORT = 17839;
+const PORT = 39179;
 const isDev = !app.isPackaged;
-const DEV_URL = 'http://127.0.0.1:5173';
+const DEV_URL = 'http://127.0.0.1:39173';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
